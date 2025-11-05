@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+<meta name="format-detection" content="telephone=no">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nosso Tempo Juntos — B💙</title>
@@ -119,7 +120,8 @@ h2 { margin:0 0 10px 0 }
 @keyframes tick { 0%{ transform:translateY(6px); filter:blur(2px); opacity:.3 } 100%{ transform:translateY(0); filter:none; opacity:1 } }
 .time-value.tick { animation: tick .35s ease-out;
   transition: color 0.3s ease;
-  color: #8ab4ff }
+  color: #8ab4ff ;
+}
 
 .note { margin-top:16px; padding:16px; border-radius:14px; background:#0c1329; border:1px solid rgba(255,255,255,.08);
   line-height:1.6; position:relative; overflow:hidden }
@@ -272,6 +274,48 @@ h2 { margin:0 0 10px 0 }
     font-size: 11px;
   }
 }
+/* ===== BLOQUINHO ÚNICO DO CRONÔMETRO ===== */
+.timer-block {
+  background: linear-gradient(180deg,#111a37,#0b132a);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06);
+  font-family: 'Poppins', sans-serif;
+  color: #eef3ff;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+/* Ajuste fino no cronômetro */
+.panel h2 { 
+  margin-bottom: 6px; 
+}
+
+.timer-block { 
+  margin-inline: auto; 
+  max-width: 320px; 
+}
+
+
+/* deixa o número principal mais marcante */
+.timer-block .num {
+  font-weight: 800;
+  color: #8ab4ff;
+  font-size: 20px;
+}
+
+@media (max-width: 600px) {
+  .timer-block {
+    font-size: 16px;
+    padding: 14px;
+    border-radius: 14px;
+    line-height: 1.6;
+  }
+  .timer-block .num { font-size: 18px; }
+}
 
 </style>
 </head>
@@ -304,7 +348,7 @@ h2 { margin:0 0 10px 0 }
     <!-- painel direita -->
     <div class="panel">
       <h2>A gente se conhece há:</h2>
-      <div class="digits-grid" id="digits"></div>
+      <div class="timer-block" id="timerBlock"></div>
 
       <div class="note">
         <p id="typedText"></p>
@@ -328,6 +372,7 @@ const PHOTOS = [
 ];
 
 /* ===== CONTADOR ===== */
+/* ===== CRONÔMETRO EM BLOQUINHO ÚNICO ===== */
 function diffParts(from,to){
   let y=0,m=0; const d=new Date(from);
   while(new Date(d.getFullYear()+1,d.getMonth(),d.getDate())<=to){d.setFullYear(d.getFullYear()+1);y++;}
@@ -337,20 +382,25 @@ function diffParts(from,to){
   return {years:y, months:m, days, hours:h, minutes:min, seconds:sec};
 }
 function two(n){return n.toString().padStart(2,'0');}
-const PARTS=[["Anos","years"],["Meses","months"],["Dias","days"],["Horas","hours"],["Minutos","minutes"],["Segundos","seconds"]];
-function renderDigits(){
-  const now=new Date(), p=diffParts(START_DATE, now), el=document.getElementById("digits");
-  if(!el.dataset.built){
-    el.innerHTML=PARTS.map(([l,k])=>`<div class="time-box"><span class="time-value" id="v-${k}">00</span><span class="time-label">${l}</span></div>`).join("");
-    el.dataset.built="1";
-  }
-  PARTS.forEach(([_,k])=>{
-    const node=document.getElementById(`v-${k}`);
-    const v=(k==="years"||k==="months")? String(p[k]) : two(p[k]);
-    if(node.textContent!==v){ node.textContent=v; node.classList.remove("tick"); void node.offsetWidth; node.classList.add("tick"); }
-  });
+
+function renderTimer(){
+  const now = new Date();
+  const p = diffParts(START_DATE, now);
+  const el = document.getElementById("timerBlock");
+
+  el.innerHTML = `
+    Já se passaram <span class="num">${p.years}</span> anos,
+    <span class="num">${p.months}</span> meses,
+    <span class="num">${p.days}</span> dias,
+    <span class="num">${two(p.hours)}</span>h :
+    <span class="num">${two(p.minutes)}</span>m :
+    <span class="num">${two(p.seconds)}</span>s
+    desde o nosso primeiro encontro 💙
+  `;
 }
-setInterval(renderDigits,1000); renderDigits();
+setInterval(renderTimer,1000);
+renderTimer();
+
 
 /* ===== DIGITAÇÃO (versão 2 minimalista) ===== */
 const lines = [
@@ -458,6 +508,19 @@ frame.addEventListener("touchend", (e) => {
 }, false);
 
 function handleSwipe() {
+  let carouselTimer = setInterval(()=>setPhoto(idxPhoto+1), 5000);
+function resetCarousel() {
+  clearInterval(carouselTimer);
+  carouselTimer = setInterval(()=>setPhoto(idxPhoto+1), 5000);
+}
+function handleSwipe() {
+  const diff = touchEndX - touchStartX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) setPhoto(idxPhoto - 1);
+    else setPhoto(idxPhoto + 1);
+    resetCarousel();
+  }
+}
   const diff = touchEndX - touchStartX;
   if (Math.abs(diff) > 50) {
     if (diff > 0) {
