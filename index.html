@@ -300,6 +300,34 @@ function spawnHeart() {
   setTimeout(() => heart.remove(), 12000);
 }
 setInterval(spawnHeart, 800);
+
+/* ===== CONTROLE POR TOQUE (mobile swipe) ===== */
+let touchStartX = 0;
+let touchEndX = 0;
+const frame = document.querySelector(".frame");
+
+frame.addEventListener("touchstart", (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+}, false);
+
+frame.addEventListener("touchend", (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+}, false);
+
+function handleSwipe() {
+  const diff = touchEndX - touchStartX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) {
+      // arrastou para a direita → foto anterior
+      setPhoto(idxPhoto - 1);
+    } else {
+      // arrastou para a esquerda → próxima foto
+      setPhoto(idxPhoto + 1);
+    }
+  }
+}
+
 </script>
 </body>
 </html>
