@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Nosso Tempo Juntos — Isa 💙</title>
+<title>Nosso Tempo Juntos — B💙</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -20,24 +20,97 @@ body {
 }
 .wrap { max-width:1100px; margin:0 auto; padding:36px 18px }
 
-.player { display:flex; align-items:center; gap:12px; background:#0b122a; border:1px solid rgba(255,255,255,.08);
-  padding:10px 14px; border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.35); width:max-content }
-.cover { width:40px; height:40px; border-radius:8px; background:linear-gradient(45deg,#bfe6ff,#69c0ff) }
-.title { font-weight:600 } 
-.artist { font-size:12px; opacity:.75 }
-.btn { display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:12px;
-  border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.08); color:#fff; cursor:pointer }
-.btn[aria-pressed="true"] { background:#133063; border-color:rgba(255,255,255,.25) }
-.eq { width:10px; height:10px; border-radius:3px; display:inline-block; margin-left:6px; background:rgba(255,255,255,.6);
-  animation:eq 800ms ease-in-out infinite; transform-origin:bottom }
-@keyframes eq { 0%{transform:scaleY(.3)} 50%{transform:scaleY(1)} 100%{transform:scaleY(.3)} }
+/* player */
+/* player — harmônico com o painel principal */
+.player {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background: linear-gradient(180deg,#111a37,#0b132a);
+  border:1px solid rgba(255,255,255,.10);
+  padding:10px 14px;
+  border-radius:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+  width:max-content;
+}
+/* Capa do player — usa o JPG correto */
+.cover{
+  width:40px;
+  height:40px;
+  border-radius:8px;
+  background: #0c1734 url('assets/music/deixa-cover.jpg?v=2') center / cover no-repeat;
+  box-shadow:0 10px 20px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+}
+.title { font-weight:600; color:#eef3ff; }
+.artist { font-size:12px; opacity:.7; color:#c9d2ea; }
 
+.btn {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color:#fff;
+  cursor:pointer;
+  transition:all .25s ease;
+}
+.btn:hover {
+  background: rgba(255,255,255,.12);
+  transform: translateY(-1px);
+}
+.btn[aria-pressed="true"] {
+  background: linear-gradient(135deg,#1f305e,#304972);
+  border-color: rgba(255,255,255,.25);
+}
+.eq {
+  width:10px;
+  height:10px;
+  border-radius:3px;
+  display:inline-block;
+  margin-left:6px;
+  background:rgba(255,255,255,.6);
+  animation:eq 800ms ease-in-out infinite;
+  transform-origin:bottom;
+}
+@keyframes eq { 
+  0%{transform:scaleY(.3)} 
+  50%{transform:scaleY(1)} 
+  100%{transform:scaleY(.3)} 
+}
+
+/* visualizador */
 .viz-wrap { position:relative; width:220px; height:36px; border-radius:10px; margin-left:6px;
   border:1px solid rgba(255,255,255,.12); background:linear-gradient(180deg,#0c1734,#0a132c); overflow:hidden }
 #viz { width:100%; height:100%; display:block; filter:drop-shadow(0 4px 8px rgba(0,0,0,.35)) }
 .viz-glow { position:absolute; inset:0; pointer-events:none; box-shadow:inset 0 0 18px rgba(124,201,255,.18) }
 
-h2 { margin:22px 0 10px 0 }
+/* layout principal com carrossel + painel */
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:22px}
+@media (max-width:980px){ .grid{grid-template-columns:1fr} }
+
+/* phone/carrossel */
+.phone{
+  background:linear-gradient(180deg,#111a37,#0b132a);
+  border:1px solid rgba(255,255,255,.12);border-radius:26px;padding:18px;
+  box-shadow:0 26px 60px rgba(0,0,0,.35);
+}
+.phone .frame{position:relative;aspect-ratio:9/16;border-radius:18px;overflow:hidden}
+.phone img{width:100%;height:100%;object-fit:cover}
+.carousel-controls{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:999px;background:rgba(255,255,255,.35)}
+.dot.active{background:#fff}
+
+/* painel à direita */
+.panel{
+  background:linear-gradient(180deg,#0f1a3b,#0c1531);
+  border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:20px;
+  box-shadow:0 16px 40px rgba(0,0,0,.35);
+}
+
+h2 { margin:0 0 10px 0 }
 .digits-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin-top:8px }
 .time-box { background:linear-gradient(180deg,#111a37,#0b132a); border:1px solid rgba(255,255,255,.12);
   border-radius:18px; padding:14px; box-shadow:0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06) }
@@ -54,58 +127,65 @@ h2 { margin:22px 0 10px 0 }
 
 .footer { text-align:center; margin:28px 0 10px; opacity:.65; font-size:12px }
 
-/* Corações de fundo */
-.heart {
-  position: fixed;
-  bottom: -10px;
-  color: rgba(255,255,255,0.15);
-  font-size: 22px;
-  animation: floatUp linear forwards;
-  z-index: 0;
-  pointer-events: none;
-}
-@keyframes floatUp {
-  from { transform: translateY(0) scale(1); opacity: 1; }
-  to { transform: translateY(-120vh) scale(1.6); opacity: 0; }
-}
+/* corações de fundo */
+.heart { position: fixed; bottom: -10px; color: rgba(255,255,255,0.15); font-size: 22px;
+  animation: floatUp linear forwards; z-index: 0; pointer-events: none }
+@keyframes floatUp { from { transform: translateY(0) scale(1); opacity: 1 } to { transform: translateY(-120vh) scale(1.6); opacity: 0 } }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="player">
-    <div class="cover"></div>
-    <div>
-      <div class="title">Aliança</div>
-      <div class="artist">Tribalistas · Marisa Monte</div>
-    </div>
-    <button id="playBtn" class="btn" type="button" aria-pressed="false">▶ Tocar</button>
-    <div class="viz-wrap"><canvas id="viz"></canvas><div class="viz-glow"></div></div>
+ <!-- PLAYER -->
+<div class="player">
+  <div class="cover"></div>
+  <div>
+    <div class="title">Deixa</div>
+    <div class="artist">Lagum · feat. Ana Gabriela</div>
   </div>
-
-  <h2>Eu te amo há:</h2>
-  <div class="digits-grid" id="digits"></div>
-
-  <div class="note">
-    <p><strong>Vida</strong>, eu não te quero por diversão, nem por costume.<br>
-    Não é pra te ferir, nem pra te usar.<br><br>
-    Eu te quero pra te fazer sentir amada, segura, valorizada e feliz.<br>
-    Pra te mostrar, todos os dias, o quanto você merece ser cuidada, protegida e apreciada.<br><br>
-    Porque quando tô perto de você, tudo faz sentido — o tempo desacelera, o mundo fica leve, e eu sinto que é ali que eu devia estar.<br><br>
-    Eu quero construir contigo, dividir vitórias, superar dias difíceis e rir até tarde das coisas mais bobas.<br><br>
-    Quando penso no futuro, não imagino um lugar — imagino a gente.<br>
-    Um amor tranquilo, forte, cheio de parceria e paz.💙</p>
-    <span class="highlight">Se eu tivesse que falar sobre minha parte favorita desse ano,<br>eu falaria sobre como eu e você nos tornamos nós.</span>
-  </div>
-
-  <div class="footer">Feito com 💙 por Pedro — build v3-final</div>
+  <button id="playBtn" class="btn" type="button" aria-pressed="false">▶ Tocar</button>
+  <div class="viz-wrap"><canvas id="viz"></canvas><div class="viz-glow"></div></div>
 </div>
 
-<audio id="bgm" src="assets/music/alianca.mp3" preload="auto" loop muted autoplay></audio>
+<!-- ÁUDIO (troca de faixa) -->
+<audio id="bgm" src="assets/music/deixa-ana-gabriela.mp3?v=2" preload="auto" loop muted autoplay></audio>
 
+  <!-- GRID: carrossel + painel -->
+  <div class="grid">
+    <!-- carrossel -->
+    <div class="phone">
+      <div class="frame">
+        <img id="photo" src="assets/photos/1.jpg" alt="Nós dois">
+        <div class="carousel-controls" id="dots"></div>
+      </div>
+    </div>
 
+    <!-- painel direita -->
+    <div class="panel">
+      <h2>A gente se conhece há:</h2>
+      <div class="digits-grid" id="digits"></div>
+
+      <div class="note">
+        <p id="typedText"></p>
+        <span class="highlight">Se eu tivesse que escolher o melhor momento do ano,<br>seria o instante em que a gente virou “nós”.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Feito com 💙 por Juninho</div>
+</div>
 
 <script>
+/* ===== CONFIGURAÇÕES ===== */
 const START_DATE = new Date("2024-10-12T00:00:00-03:00");
+const PHOTOS = [
+  "assets/photos/1.jpg",
+  "assets/photos/2.jpg",
+  "assets/photos/3.jpg",
+  "assets/photos/4.jpg",
+  "assets/photos/5.jpg"
+];
+
+/* ===== CONTADOR ===== */
 function diffParts(from,to){
   let y=0,m=0; const d=new Date(from);
   while(new Date(d.getFullYear()+1,d.getMonth(),d.getDate())<=to){d.setFullYear(d.getFullYear()+1);y++;}
@@ -130,23 +210,60 @@ function renderDigits(){
 }
 setInterval(renderDigits,1000); renderDigits();
 
+/* ===== DIGITAÇÃO (versão 2 minimalista) ===== */
+const lines = [
+  "Vida, é simples: contigo tudo faz sentido.",
+  "Te ver sorrir muda meu dia. Te ouvir me acalma. Te abraçar me faz sentir inteiro.",
+  "Gosto da nossa leveza, do jeito que rimos de tudo e do quanto crescemos juntos.",
+  "Quero continuar dividindo sonhos, planos e aquele café que sempre vira conversa.",
+  "O tempo passa, mas com você cada instante vale por mil. 💙"
+];
+const target = document.getElementById("typedText");
+let line = 0, idx = 0;
+function type() {
+  if (line < lines.length) {
+    if (idx < lines[line].length) {
+      target.innerHTML += lines[line][idx++]; setTimeout(type, 32);
+    } else {
+      target.innerHTML += "<br><br>"; line++; idx = 0; setTimeout(type, 520);
+    }
+  }
+}
+setTimeout(type, 900);
+
+/* ===== CARROSSEL ===== */
+let idxPhoto = 0;
+const photo = document.getElementById("photo");
+const dots = document.getElementById("dots");
+function setPhoto(i){
+  idxPhoto = (i+PHOTOS.length)%PHOTOS.length;
+  photo.src = PHOTOS[idxPhoto];
+  Array.from(dots.children).forEach((d, j)=> d.classList.toggle("active", j===idxPhoto));
+}
+PHOTOS.forEach((_,i)=>{
+  const d = document.createElement("div");
+  d.className = "dot"+(i===0?" active":"");
+  d.addEventListener("click", ()=>setPhoto(i));
+  dots.appendChild(d);
+});
+setInterval(()=>setPhoto(idxPhoto+1), 5000);
+setPhoto(0);
+
+/* ===== ÁUDIO + VIZ ===== */
 const audio=document.getElementById('bgm');
 const playBtn=document.getElementById('playBtn');
 const canvas=document.getElementById('viz'); const ctx=canvas.getContext('2d');
 let audioCtx, analyser, dataArray, rafId;
 
-function resizeCanvas(){
-  const dpr=window.devicePixelRatio||1; canvas.width=canvas.clientWidth*dpr; canvas.height=canvas.clientHeight*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-} resizeCanvas(); window.addEventListener('resize', resizeCanvas);
-function makeAudioGraph(){
-  if(audioCtx) return;
+function resizeCanvas(){ const dpr=window.devicePixelRatio||1; canvas.width=canvas.clientWidth*dpr; canvas.height=canvas.clientHeight*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);}
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+function makeAudioGraph(){ if(audioCtx) return;
   audioCtx=new (window.AudioContext||window.webkitAudioContext)();
   const src=audioCtx.createMediaElementSource(audio);
   analyser=audioCtx.createAnalyser(); analyser.fftSize=512; dataArray=new Uint8Array(analyser.frequencyBinCount);
   src.connect(analyser); analyser.connect(audioCtx.destination);
 }
-function drawViz(){
-  if(!analyser) return; rafId=requestAnimationFrame(drawViz); analyser.getByteFrequencyData(dataArray);
+function drawViz(){ if(!analyser) return; rafId=requestAnimationFrame(drawViz); analyser.getByteFrequencyData(dataArray);
   ctx.clearRect(0,0,canvas.width,canvas.height);
   const w=canvas.clientWidth, h=canvas.clientHeight, bars=32, step=Math.floor(dataArray.length/bars), bw=w/bars;
   for(let i=0;i<bars;i++){ const v=dataArray[i*step]/255; const bh=Math.max(2, v*(h-4)); const x=i*bw+2, y=h-bh-2;
@@ -155,8 +272,7 @@ function drawViz(){
   }
 }
 function startViz(){ makeAudioGraph(); cancelAnimationFrame(rafId); drawViz(); }
-function fadeTo(vol=0.6, ms=800){
-  const step=50, inc=(vol-audio.volume)/(ms/step);
+function fadeTo(vol=0.6, ms=800){ const step=50, inc=(vol-audio.volume)/(ms/step);
   const id=setInterval(()=>{ audio.volume=Math.min(vol, audio.volume+inc); if(audio.volume>=vol-0.01) clearInterval(id); }, step);
 }
 audio.volume=0; audio.play().catch(()=>{});
@@ -171,14 +287,15 @@ window.addEventListener('keydown', unlock, {once:true});
 playBtn.addEventListener('click', ()=>{ if(audio.paused){ audio.muted=false; audio.play().then(()=>{ fadeTo(0.6,400); startViz();
   playBtn.setAttribute('aria-pressed','true'); playBtn.innerHTML='⏸ Pausar <span class="eq"></span>'; }).catch(()=>{}); }
   else { audio.pause(); playBtn.setAttribute('aria-pressed','false'); playBtn.textContent='▶ Tocar'; cancelAnimationFrame(rafId); } });
-/* ===== Corações de fundo ===== */
+
+/* ===== CORAÇÕES ===== */
 function spawnHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
   heart.textContent = "💙";
   heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = 14 + Math.random() * 24 + "px";
-  heart.style.animationDuration = 6 + Math.random() * 6 + "s";
+  heart.style.fontSize = (14 + Math.random() * 24) + "px";
+  heart.style.animationDuration = (6 + Math.random() * 6) + "s";
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 12000);
 }
