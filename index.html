@@ -131,6 +131,82 @@ h2 { margin:0 0 10px 0 }
 .heart { position: fixed; bottom: -10px; color: rgba(255,255,255,0.15); font-size: 22px;
   animation: floatUp linear forwards; z-index: 0; pointer-events: none }
 @keyframes floatUp { from { transform: translateY(0) scale(1); opacity: 1 } to { transform: translateY(-120vh) scale(1.6); opacity: 0 } }
+
+/* =========================
+   MOBILE / TABLET TWEAKS
+   ========================= */
+@media (max-width: 980px) {
+  .wrap { max-width: 100%; padding: 18px 14px; }
+
+  /* Empilha o conteúdo: foto em cima, texto embaixo */
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  /* Player ocupa toda a largura e fica mais “tocável” */
+  .player {
+    width: 100%;
+    padding: 12px;
+    border-radius: 14px;
+    gap: 10px;
+  }
+  .cover { width: 44px; height: 44px; border-radius: 10px; }
+  .title { font-size: 15px; }
+  .artist { font-size: 12px; }
+  .btn { padding: 8px 10px; font-size: 14px; }
+  /* Visualizador: reduz para caber bonito; se quiser esconder, troque display por none */
+  .viz-wrap { width: 150px; height: 28px; }
+
+  /* Cartão do “celular” */
+  .phone { padding: 12px; border-radius: 20px; }
+  .phone .frame {
+    /* usa dvh: altura da viewport “dinâmica” no mobile, evitando corte pela barra de endereço */
+    height: min(68dvh, 560px);
+    aspect-ratio: unset;   /* libera o ratio para privilegiar a altura */
+    border-radius: 14px;
+  }
+  .carousel-controls { bottom: 8px; }
+  .dot { width: 6px; height: 6px; }
+
+  /* Painel de texto */
+  .panel {
+    padding: 14px;
+    border-radius: 16px;
+  }
+  h2 { font-size: 18px; margin: 0 0 8px; }
+
+  /* Caixinhas do contador: 2 por linha em telas estreitas */
+  .digits-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .time-box { padding: 12px; border-radius: 14px; }
+  .time-value { font-size: 26px; }
+  .time-label { font-size: 11px; letter-spacing: .4px; }
+
+  /* Texto */
+  .note { padding: 12px; border-radius: 12px; line-height: 1.55; }
+  .highlight { font-size: 13px; }
+  .footer { font-size: 11px; margin: 18px 0 8px; }
+}
+
+@media (max-width: 560px) {
+  /* Em celulares bem estreitos, 1 por linha nas caixinhas */
+  .digits-grid { grid-template-columns: 1fr; }
+  .time-value { font-size: 24px; }
+  .viz-wrap { width: 120px; height: 24px; }
+  .title { font-size: 14px; }
+}
+
+/* iOS safe tap sizes e “suavização” geral */
+@media (hover: none) and (pointer: coarse) {
+  .btn { padding: 10px 12px; }
+  .dot { width: 7px; height: 7px; }
+}
+
+
 </style>
 </head>
 <body>
@@ -327,6 +403,19 @@ function handleSwipe() {
     }
   }
 }
+/* ===== Ajuste de altura em vh para alguns navegadores móveis ===== */
+(function() {
+  const setVH = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  };
+  setVH();
+  window.addEventListener('resize', setVH);
+})();
+
+/* Exemplo de uso (se quiser): 
+   .phone .frame { height: calc(var(--vh) * 68); } 
+   (Se usar isso, remova/ajuste o height com dvh no CSS) */
 
 </script>
 </body>
