@@ -265,7 +265,7 @@ export default function App() {
       </section>
 
       <footer style={{ padding: '24px 0', textAlign: 'center', color: '#6b7280', fontSize: 14 }}>
-        Feito com <span style={{ color: '#e11d48' }}>❤</span> por Pedro para {NOME_DELA}
+        Feito com <span style={{ color: '#e11d48' }}>❤</span> por Juninho para {Juninha}
       </footer>
     </div>
   )
