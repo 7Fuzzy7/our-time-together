@@ -274,48 +274,120 @@ h2 { margin:0 0 10px 0 }
     font-size: 11px;
   }
 }
-/* ===== BLOQUINHO ÚNICO DO CRONÔMETRO ===== */
+/* ===== BLOQUINHO ÚNICO DO CRONÔMETRO (refinado) ===== */
 .timer-block {
-  background: linear-gradient(180deg,#111a37,#0b132a);
+  /* visual */
+  background: linear-gradient(180deg, #111a37, #0b132a);
   border: 1px solid rgba(255,255,255,.12);
   border-radius: 18px;
-  padding: 18px 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06);
+  position: relative;
+  overflow: hidden;
+  /* layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;                      /* espaçamento entre as linhas */
+  padding: 16px 18px;
+  margin-top: 10px;
+  margin-inline: auto;
+  max-width: 360px;              /* um pouquinho mais largo que 320 */
+  /* texto */
   font-family: 'Poppins', sans-serif;
   color: #eef3ff;
   text-align: center;
-  font-size: 18px;
-  line-height: 1.5;
-  margin-top: 10px;
+  line-height: 1.55;
+  font-size: clamp(16px, 1.7vw, 18px);
+  font-variant-numeric: tabular-nums;      /* números “fixos” */
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Ajuste fino no cronômetro */
-.panel h2 { 
-  margin-bottom: 6px; 
+/* brilho de borda muito sutil */
+.timer-block::before {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(120% 140% at 50% -20%, rgba(138,180,255,.12), transparent 60%);
+  mix-blend-mode: screen;
 }
 
-.timer-block { 
-  margin-inline: auto; 
-  max-width: 320px; 
-}
-
-
-/* deixa o número principal mais marcante */
+/* números em destaque */
 .timer-block .num {
   font-weight: 800;
   color: #8ab4ff;
-  font-size: 20px;
+  font-size: clamp(18px, 2vw, 22px);
+  letter-spacing: .2px;
 }
 
+/* coração lá embaixo */
+.heart-bottom {
+  margin-top: 4px;
+  display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(138,180,255,.25));
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translateY(0) scale(1); opacity: .9; }
+  50%      { transform: translateY(1px) scale(1.25); opacity: 1; }
+}
+
+/* ajuste do título acima do bloco */
+.panel h2 { margin-bottom: 8px; }
+
+/* mobile */
 @media (max-width: 600px) {
   .timer-block {
-    font-size: 16px;
     padding: 14px;
     border-radius: 14px;
-    line-height: 1.6;
+    gap: 5px;
+    max-width: 320px;            /* mais compacto no celular */
   }
-  .timer-block .num { font-size: 18px; }
+  .timer-block .num { font-size: clamp(18px, 5vw, 20px); }
+  .timer-block { gap: 8px; }
+
+/* linhas do cronômetro */
+.timer-block .row{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  justify-content:center;
+  gap:14px;
 }
+
+.timer-block .row-top{ margin-bottom:2px; }
+.timer-block .row-bottom{ margin-top:2px; }
+
+.timer-block .unit{
+  display:inline-flex;
+  align-items:baseline;
+  gap:6px;
+}
+
+.timer-block .label{
+  font-size: .9em;
+  opacity:.85;
+  letter-spacing:.2px;
+}
+
+.timer-block .sep,
+.timer-block .dot{
+  opacity:.45;
+}
+
+/* fica ótimo no mobile também */
+@media (max-width:600px){
+  .timer-block .row{ gap:10px; }
+  .timer-block .label{ font-size:.95em; }
+}
+
+  
+  
+
+
+}
+
 
 </style>
 </head>
@@ -389,13 +461,23 @@ function renderTimer(){
   const el = document.getElementById("timerBlock");
 
   el.innerHTML = `
-    Já se passaram <span class="num">${p.years}</span> anos,
-    <span class="num">${p.months}</span> meses,
-    <span class="num">${p.days}</span> dias,
-    <span class="num">${two(p.hours)}</span>h :
-    <span class="num">${two(p.minutes)}</span>m :
-    <span class="num">${two(p.seconds)}</span>s
-    desde o nosso primeiro encontro 💙
+    <div class="row row-top">
+      <span class="unit"><span class="num">${p.years}</span> <span class="label">anos</span></span>
+      <span class="sep">,</span>
+      <span class="unit"><span class="num">${p.months}</span> <span class="label">meses</span></span>
+      <span class="sep">,</span>
+      <span class="unit"><span class="num">${p.days}</span> <span class="label">dias</span></span>
+    </div>
+
+    <div class="row row-bottom">
+      <span class="unit"><span class="num">${two(p.hours)}</span><span class="label">h</span></span>
+      <span class="dot">·</span>
+      <span class="unit"><span class="num">${two(p.minutes)}</span><span class="label">m</span></span>
+      <span class="dot">·</span>
+      <span class="unit"><span class="num">${two(p.seconds)}</span><span class="label">s</span></span>
+    </div>
+
+    <span class="heart-bottom">💙</span>
   `;
 }
 setInterval(renderTimer,1000);
